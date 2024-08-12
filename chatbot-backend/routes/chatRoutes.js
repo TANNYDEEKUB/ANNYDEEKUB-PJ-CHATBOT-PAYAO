@@ -14,6 +14,6 @@ router.get('/history', authMiddleware, getChatHistory);
 router.delete('/history/:id', authMiddleware, deleteChatSession);
 
 // POST to update session name
-router.post('/history/name/:id', updateSessionName);
+router.post('/history/name/:id', authMiddleware, updateSessionName);
 
 module.exports = router;

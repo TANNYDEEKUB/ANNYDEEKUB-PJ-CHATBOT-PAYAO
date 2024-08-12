@@ -5,7 +5,7 @@ const authMiddleware = async (req, res, next) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
-    return res.status(401).json({ message: 'Authentication required' });
+    return next(); // เปลี่ยนจาก res.status(401).json เพื่อให้ไม่บังคับในกรณีที่ไม่มี token
   }
 
   try {
@@ -19,7 +19,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (err) {
     console.error('Authentication error:', err);
-    res.status(401).json({ message: 'Invalid token' });
+    return next(); // เปลี่ยนจาก res.status(401).json เพื่อให้ไม่บังคับในกรณีที่ไม่มี token
   }
 };
 

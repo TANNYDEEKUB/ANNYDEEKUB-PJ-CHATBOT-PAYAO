@@ -1,23 +1,24 @@
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
-  sender: { type: String, required: true }, // 'user' or 'bot'
+  sender: { type: String, required: true },
   text: { type: String, required: true },
   timestamp: { type: Date, default: Date.now }
 });
 
-const conversationSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+const sessionSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+  name: { type: String, default: 'การสนทนาใหม่' }, // ตั้งค่า default name
   messages: [messageSchema],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
 
-conversationSchema.pre('save', function(next) {
+sessionSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
   next();
 });
 
-const Conversation = mongoose.model('Conversation', conversationSchema);
+const Session = mongoose.model('Session', sessionSchema);
 
-module.exports = Conversation;
+module.exports = Session;
